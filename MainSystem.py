@@ -1,15 +1,6 @@
 import time #importing the time library
 import os   #importing the library to clean the terminal
-import functions
-
-
-#-------------------------------------------------------------------
-Students = []
-Disciplines = []
-Teachers = []
-Classes = []
-Registrations = []
-#-------------------------------------------------------------------
+import Functions
 
 ChosenOption = 0
 
@@ -51,7 +42,7 @@ while True: #Infinite loop, so the user decides when they will leave the program
         if NextChosenOption == 5:
             ChosenOption = 0
         else:
-            MenuOptions(ChosenOption, NextChosenOption)
+            Functions.MenuOptions(ChosenOption, NextChosenOption)
         continue
 
     elif ChosenOption == 2:
@@ -69,7 +60,7 @@ while True: #Infinite loop, so the user decides when they will leave the program
         if NextChosenOption == 5:
             ChosenOption = 0
         else:
-            MenuOptions(ChosenOption, NextChosenOption)
+            Functions.MenuOptions(ChosenOption, NextChosenOption)
         continue
 
     elif ChosenOption == 3:
@@ -87,7 +78,7 @@ while True: #Infinite loop, so the user decides when they will leave the program
         if NextChosenOption == 5:
             ChosenOption = 0
         else:
-            MenuOptions(ChosenOption, NextChosenOption)
+            Functions.MenuOptions(ChosenOption, NextChosenOption)
         continue
 
     elif ChosenOption == 4:
@@ -105,7 +96,7 @@ while True: #Infinite loop, so the user decides when they will leave the program
         if NextChosenOption == 5:
             ChosenOption = 0
         else:
-            MenuOptions(ChosenOption, NextChosenOption)
+            Functions.MenuOptions(ChosenOption, NextChosenOption)
         continue
 
     elif ChosenOption == 5:
@@ -123,7 +114,7 @@ while True: #Infinite loop, so the user decides when they will leave the program
         if NextChosenOption == 5:
             ChosenOption = 0
         else:
-            MenuOptions(ChosenOption, NextChosenOption)
+            Functions.MenuOptions(ChosenOption, NextChosenOption)
         continue
 
     else:
