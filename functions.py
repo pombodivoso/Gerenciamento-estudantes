@@ -1,82 +1,148 @@
+import json
 
+STUDENTS_FILE = "Students.json"
+DISCIPLINES_FILE = "Disciplines.json"
+TEACHERS_FILE = "Teachers.json"
+CLASSES_FILE = "Classes.json"
+REGISTRATIONS_FILE = "Registrations.json"
 
 #-------------------------------------------------------------------
-Students = []
-Disciplines = []
-Teachers = []
-Classes = []
-Registrations = []
+def SaveFile(listOption, fileOption):
+    with open(fileOption, 'w', encoding='utf-8') as file:
+        json.dump(listOption, file, ensure_ascii=False, indent=4)
+
+def ReadFile(fileOption):
+    try:
+        with open(fileOption, 'r', encoding='utf-8') as file:
+            result = json.load(file)
+            return result
+    except FileNotFoundError:
+        return []
+    except json.JSONDecodeError:
+        return []
+    
+#------------------------------------------------------------------
+
+Students = ReadFile(STUDENTS_FILE)
+Disciplines = ReadFile(DISCIPLINES_FILE)
+Teachers = ReadFile(TEACHERS_FILE)
+Classes = ReadFile(CLASSES_FILE)
+Registrations = ReadFile(REGISTRATIONS_FILE)
 
 #-------------------------------------------------------------------
-def ShowAll(listOption): #A function to show the list informations
-    if not listOption:
+
+def _save_for_list(listOption):
+    if listOption is Students:
+        SaveFile(Students, STUDENTS_FILE)
+    elif listOption is Disciplines:
+        SaveFile(Disciplines, DISCIPLINES_FILE)
+    elif listOption is Teachers:
+        SaveFile(Teachers, TEACHERS_FILE)
+    elif listOption is Classes:
+        SaveFile(Classes, CLASSES_FILE)
+    elif listOption is Registrations:
+        SaveFile(Registrations, REGISTRATIONS_FILE)
+
+def ShowAll(fileOption): #A function to show the list informations
+    if not fileOption:
         print("Lista vazia!")
     else:
         print("===================================================================================================")
-        for i in listOption:
+        for i in fileOption:
             print(i)
             print("===================================================================================================")
 
-def Include(addedData, listOption): #A function to include something new on the list
-    listOption.append(addedData)
+def Include(addedData, fileOption): #A function to include something new on the list
+    fileOption.append(addedData)
+    _save_for_list(fileOption)
 
 def UpdateStudent(searchInfo): #A function to update all the students information
+    found = False
     for dic in Students:
-        if dic["Id"] == searchInfo:
+        if dic.get("Id") == searchInfo:
             dic["Nome"] = input("Digite o novo nome: ")
             dic["Data de Nascimento"] = input("Digite a nova data de nascimento(dia/mes/ano): ")
             dic["CPF"] = input("Digite o novo CPF (sem traços/pontos): ")
+            found = True
+            _save_for_list(Students) 
             break
-        else:
-            print("Não encontrado!")
+    if not found:
+        print("Não encontrado!")
             
 def UpdateTeacher(searchInfo): #A function to update all the teachers information 
+    found = False
     for dic in Teachers:
         if dic["Id"] == searchInfo:
             dic["Nome"] = input("Digite o novo nome: ")
             dic["Data de Nascimento"] = input("Digite a nova data de nascimento(dia/mes/ano): ")
             dic["CPF"] = input("Digite o novo CPF (sem traços/pontos): ")
             dic["Especialização"] = input("Digite a nova matéria de especialização: ")
+            found = True
+            _save_for_list(Teachers)
             break
-        else:
-            print("Não encontrado!")
+    if not found:
+        print("Não encontrado!")
             
 def UpdateDisciplines(searchInfo): #A function to update all the discipline information 
+    found = False
     for dic in Disciplines:
         if dic["Id"] == searchInfo:
             dic["Nome da Disciplina"] = input("Digite o novo nome: ")
             dic["Carga horária"] = input("Digite a nova carga horária: ")
+            found = True
+            _save_for_list(Disciplines) 
+            break
+    if not found:
+        print("Não encontrado!")
             
 def UpdateClasses(searchInfo): #A function to update all the classes information 
+    found = False
     for dic in Classes:
         if dic["Id"] == searchInfo:
             dic["Tempo de Aula"] = input("Digite o novo tempo de aula: ")
             dic["Numero de alunos"] = input("Digite o novo número de alunos: ")
             dic["Sala de Aula"] = input("Digite a nova sala de aula: ")
             dic["Materia"] = input("Digite a nova matéria: ")
+            found = True
+            _save_for_list(Classes) 
+            break
+    if not found:
+        print("Não encontrado!")
             
 def UpdateRegistration(searchInfo): #A function to update all the Registration information 
+    found = False
     for dic in Registrations:
-        if dic["Id"] == searchInfo:
+        if dic.get("Id") == searchInfo:
             StudentId = input("Digite o ID novo do estudante:")
             ClassId = input("Digite o ID novo da turma:")
             TeacherId = input("Digite o ID novo do professor:")
-            for Studentdics in Students:
-                for Classdics in Classes:
-                    for Teacherdics in Teachers:
-                        if Studentdics["Id"] == StudentId and Classdics["Id"] == ClassId and Teacherdics["Id"] == TeacherId:
-                            dic["Id do aluno"] = StudentId
-                            dic["Id da turma"] = ClassId
-                            dic["Id do professor"] = TeacherId
+            student_exists = any(s.get("Id") == StudentId for s in Students)
+            class_exists = any(c.get("Id") == ClassId for c in Classes)
+            teacher_exists = any(t.get("Id") == TeacherId for t in Teachers)
+            if student_exists and class_exists and teacher_exists:
+                dic["Id do aluno"] = StudentId
+                dic["Id da turma"] = ClassId
+                dic["Id do professor"] = TeacherId
+                found = True
+                _save_for_list(Registrations) 
+            else:
+                print("Aluno, turma ou professor não encontrado!")
+            break
+    if not found:
+        print("Matrícula não encontrada!")
 
         
 
 def Exclude(listOption, searchInfo):  #A function to delete something on the list 
-    for dic in listOption:
-        if dic["Id"] == searchInfo:
+    found = False
+    for dic in listOption[:]:
+        if dic.get("Id") == searchInfo:
             listOption.remove(dic)
-        else:
-            print("Item não encontrado!")
+            _save_for_list(listOption)
+            found = True
+            break
+    if not found:
+        print("Item não encontrado!")
 
 #-------------------------- STUDENT --------------------------------
 def MenuOptions(ChosenOption, NextChosenOption):  
