@@ -1,10 +1,10 @@
 import json
 
-STUDENTS_FILE = "Students.json"
-DISCIPLINES_FILE = "Disciplines.json"
-TEACHERS_FILE = "Teachers.json"
-CLASSES_FILE = "Classes.json"
-REGISTRATIONS_FILE = "Registrations.json"
+StudentsFile = "Students.json"
+DisciplinesFile = "Disciplines.json"
+TeachersFile = "Teachers.json"
+ClassesFile = "Classes.json"
+RegistrationsFile = "Registrations.json"
 
 #-------------------------------------------------------------------
 def SaveFile(listOption, fileOption):
@@ -21,27 +21,28 @@ def ReadFile(fileOption):
     except json.JSONDecodeError:
         return []
     
+    
 #------------------------------------------------------------------
 
-Students = ReadFile(STUDENTS_FILE)
-Disciplines = ReadFile(DISCIPLINES_FILE)
-Teachers = ReadFile(TEACHERS_FILE)
-Classes = ReadFile(CLASSES_FILE)
-Registrations = ReadFile(REGISTRATIONS_FILE)
+Students = ReadFile(StudentsFile)
+Disciplines = ReadFile(DisciplinesFile)
+Teachers = ReadFile(TeachersFile)
+Classes = ReadFile(ClassesFile)
+Registrations = ReadFile(RegistrationsFile)
 
 #-------------------------------------------------------------------
 
-def _save_for_list(listOption):
-    if listOption is Students:
-        SaveFile(Students, STUDENTS_FILE)
-    elif listOption is Disciplines:
-        SaveFile(Disciplines, DISCIPLINES_FILE)
-    elif listOption is Teachers:
-        SaveFile(Teachers, TEACHERS_FILE)
-    elif listOption is Classes:
-        SaveFile(Classes, CLASSES_FILE)
-    elif listOption is Registrations:
-        SaveFile(Registrations, REGISTRATIONS_FILE)
+def SaveList(listOption):
+    if listOption == Students:
+        SaveFile(Students, StudentsFile)
+    elif listOption == Disciplines:
+        SaveFile(Disciplines, DisciplinesFile)
+    elif listOption == Teachers:
+        SaveFile(Teachers, TeachersFile)
+    elif listOption == Classes:
+        SaveFile(Classes, ClassesFile)
+    elif listOption == Registrations:
+        SaveFile(Registrations, RegistrationsFile)
 
 def ShowAll(fileOption): #A function to show the list informations
     if not fileOption:
@@ -54,7 +55,7 @@ def ShowAll(fileOption): #A function to show the list informations
 
 def Include(addedData, fileOption): #A function to include something new on the list
     fileOption.append(addedData)
-    _save_for_list(fileOption)
+    SaveList(fileOption)
 
 def UpdateStudent(searchInfo): #A function to update all the students information
     found = False
@@ -64,7 +65,7 @@ def UpdateStudent(searchInfo): #A function to update all the students informatio
             dic["Data de Nascimento"] = input("Digite a nova data de nascimento(dia/mes/ano): ")
             dic["CPF"] = input("Digite o novo CPF (sem traços/pontos): ")
             found = True
-            _save_for_list(Students) 
+            SaveList(Students) 
             break
     if not found:
         print("Não encontrado!")
@@ -78,7 +79,7 @@ def UpdateTeacher(searchInfo): #A function to update all the teachers informatio
             dic["CPF"] = input("Digite o novo CPF (sem traços/pontos): ")
             dic["Especialização"] = input("Digite a nova matéria de especialização: ")
             found = True
-            _save_for_list(Teachers)
+            SaveList(Teachers)
             break
     if not found:
         print("Não encontrado!")
@@ -90,7 +91,7 @@ def UpdateDisciplines(searchInfo): #A function to update all the discipline info
             dic["Nome da Disciplina"] = input("Digite o novo nome: ")
             dic["Carga horária"] = input("Digite a nova carga horária: ")
             found = True
-            _save_for_list(Disciplines) 
+            SaveList(Disciplines) 
             break
     if not found:
         print("Não encontrado!")
@@ -99,12 +100,21 @@ def UpdateClasses(searchInfo): #A function to update all the classes information
     found = False
     for dic in Classes:
         if dic["Id"] == searchInfo:
-            dic["Tempo de Aula"] = input("Digite o novo tempo de aula: ")
-            dic["Numero de alunos"] = input("Digite o novo número de alunos: ")
-            dic["Sala de Aula"] = input("Digite a nova sala de aula: ")
-            dic["Materia"] = input("Digite a nova matéria: ")
-            found = True
-            _save_for_list(Classes) 
+            classTime = input("Digite o novo tempo de aula: ")
+            studentsTotal = input("Digite o novo número de alunos: ")
+            classLoc = input("Digite a nova sala de aula: ")
+            disciplineId = input("Digite o ID da nova disciplina: ")
+            teacherId = input("Digite o ID do novo professor: ")
+            discipline_exists = any(d.get("Id") == disciplineId for d in Disciplines)
+            teacher_exists = any(t.get("Id") == teacherId for t in Teachers)
+            if discipline_exists and teacher_exists:    
+                dic["Tempo de Aula"] = classTime
+                dic["Numero de alunos"] = studentsTotal
+                dic["Sala de Aula"] = classLoc
+                dic["Disciplina"] = disciplineId
+                dic["Professor"] = teacherId
+                found = True
+                SaveList(Classes) 
             break
     if not found:
         print("Não encontrado!")
@@ -124,7 +134,7 @@ def UpdateRegistration(searchInfo): #A function to update all the Registration i
                 dic["Id da turma"] = ClassId
                 dic["Id do professor"] = TeacherId
                 found = True
-                _save_for_list(Registrations) 
+                SaveList(Registrations) 
             else:
                 print("Aluno, turma ou professor não encontrado!")
             break
@@ -138,7 +148,7 @@ def Exclude(listOption, searchInfo):  #A function to delete something on the lis
     for dic in listOption[:]:
         if dic.get("Id") == searchInfo:
             listOption.remove(dic)
-            _save_for_list(listOption)
+            SaveList(listOption)
             found = True
             break
     if not found:
@@ -229,14 +239,18 @@ def MenuOptions(ChosenOption, NextChosenOption):
             ClassId = input("Digite o ID de 5 dígitos: ")
             NumberStudents = int(input("Digite o número de alunos: "))
             ClassTime = input("Digite o tempo de aula: ")
-            MainCourse = input("Digite sua matéria de especialização: ")
+            ShowAll(Disciplines)
+            MainCourse = input("Digite a disciplina de especialização: ")
             Classroom = input("Digite o número da sala de aula: ")
+            ShowAll(Teachers)
+            Teacher = input("Digite o professor da aula: ")
             dictionary = {
                 "Id" : ClassId,
                 "Tempo de Aula" : ClassTime,
                 "Numero de alunos" : NumberStudents,
-                "Materia" : MainCourse,
-                "Sala de Aula" : Classroom
+                "Disciplina" : MainCourse,
+                "Sala de Aula" : Classroom,
+                "Professor" : Teacher
             }
             Include(dictionary, Classes)
         elif NextChosenOption == 2:

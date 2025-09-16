@@ -1,0 +1,10 @@
+[
+    {
+        "Id": "34567",
+        "Tempo de Aula": "60",
+        "Numero de alunos": 35,
+        "Disciplina": "12345",
+        "Sala de Aula": "23",
+        "Professor": "23456"
+    }
+]
