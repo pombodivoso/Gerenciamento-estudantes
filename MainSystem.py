@@ -28,7 +28,7 @@ while True: #Infinite loop, so the user decides when they will leave the program
         print(".")
     
     if ChosenOption == 1: 
-        os.system("cls")
+        os.system("cls") #Cleaning the screen
         print("==============================")
         print("|     BEM-VINDO ESTUDANTE    |")
         print("==============================")
@@ -42,7 +42,7 @@ while True: #Infinite loop, so the user decides when they will leave the program
         if NextChosenOption == 5:
             ChosenOption = 0
         else:
-            Functions.MenuOptions(ChosenOption, NextChosenOption)
+            Functions.MenuOptions(ChosenOption, NextChosenOption) #Next Menu
         continue
 
     elif ChosenOption == 2:

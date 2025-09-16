@@ -169,6 +169,7 @@ def MenuOptions(ChosenOption, NextChosenOption):
                 "CPF" : Id
             }
             Include(dictionary, Students)
+            input("\nPressione ENTER para continuar...")
         elif NextChosenOption == 2:
             ShowAll(Students)
             input("\nPressione ENTER para continuar...")
@@ -176,10 +177,12 @@ def MenuOptions(ChosenOption, NextChosenOption):
             ShowAll(Students)
             search = input("Digite seu ID: ")
             UpdateStudent(search)
+            input("\nPressione ENTER para continuar...")
         elif NextChosenOption == 4:
             ShowAll(Students)
             search = input("Digite Id do aluno que deseja excluir: ")
             Exclude(Students, search)
+            input("\nPressione ENTER para continuar...")
                
 #-------------------------- DISCIPLINE --------------------------------
     elif ChosenOption == 2:
@@ -193,6 +196,7 @@ def MenuOptions(ChosenOption, NextChosenOption):
                 "Carga horária" : Workload
             }
             Include(dictionary, Disciplines)
+            input("\nPressione ENTER para continuar...")
         elif NextChosenOption == 2:
             ShowAll(Disciplines)
             input("\nPressione ENTER para continuar...")
@@ -200,10 +204,12 @@ def MenuOptions(ChosenOption, NextChosenOption):
             ShowAll(Disciplines)
             search = input("Digite o ID: ")
             UpdateDisciplines(search)
+            input("\nPressione ENTER para continuar...")
         elif NextChosenOption == 4:
             ShowAll(Disciplines)
             search = input("Digite o Id da disciplina que deseja excluir: ")
             Exclude(Disciplines, search)
+            input("\nPressione ENTER para continuar...")
 
 #-------------------------- TEACHER --------------------------------
     elif ChosenOption == 3:
@@ -221,6 +227,7 @@ def MenuOptions(ChosenOption, NextChosenOption):
                 "Especialização" : MainCourse
             }
             Include(dictionary, Teachers)
+            input("\nPressione ENTER para continuar...")
         elif NextChosenOption == 2:
             ShowAll(Teachers)
             input("\nPressione ENTER para continuar...")
@@ -228,10 +235,12 @@ def MenuOptions(ChosenOption, NextChosenOption):
             ShowAll(Teachers)
             search = input("Digite seu ID: ")
             UpdateTeacher(search)
+            input("\nPressione ENTER para continuar...")
         elif NextChosenOption == 4:
             ShowAll(Teachers)
             search = input("Digite o Id do prefessor deseja excluir: ")
             Exclude(Teachers, search)
+            input("\nPressione ENTER para continuar...")
 
 #-------------------------- CLASSES --------------------------------
     elif ChosenOption == 4:
@@ -253,6 +262,7 @@ def MenuOptions(ChosenOption, NextChosenOption):
                 "Professor" : Teacher
             }
             Include(dictionary, Classes)
+            input("\nPressione ENTER para continuar...")
         elif NextChosenOption == 2:
             ShowAll(Classes)
             input("\nPressione ENTER para continuar...")
@@ -260,10 +270,12 @@ def MenuOptions(ChosenOption, NextChosenOption):
             ShowAll(Classes)
             search = input("Digite seu ID: ")
             UpdateClasses(search)
+            input("\nPressione ENTER para continuar...")
         elif NextChosenOption == 4:
             ShowAll(Classes)
             search = input("Digite o Id da turma que deseja excluir: ")
             Exclude(Classes, search)
+            input("\nPressione ENTER para continuar...")
 
 #-------------------------- REGISTRATION --------------------------------
     elif ChosenOption == 5:
@@ -282,6 +294,7 @@ def MenuOptions(ChosenOption, NextChosenOption):
                 "Id do professor" : TeacherId
             }
             Include(dictionary, Registrations)
+            input("\nPressione ENTER para continuar...")
         elif NextChosenOption == 2:
             ShowAll(Registrations)
             input("\nPressione ENTER para continuar...")
@@ -289,7 +302,9 @@ def MenuOptions(ChosenOption, NextChosenOption):
             ShowAll(Registrations)
             search = input("Digite seu ID: ")
             UpdateRegistration(search)
+            input("\nPressione ENTER para continuar...")
         elif NextChosenOption == 4:
             ShowAll(Registrations)
             search = input("Digite o Id da matrícula que deseja excluir: ")
             Exclude(Registrations, search)
+            input("\nPressione ENTER para continuar...")
